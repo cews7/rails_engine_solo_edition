@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :merchant do
+    name "MyString"
+  end
   factory :item do
     name "Sol Ring"
     description "Add two mana to mana pool"
