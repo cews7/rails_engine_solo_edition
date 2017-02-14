@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :transaction do
+    invoice_id 1
+    credit_card_number 1
+    result "MyString"
+  end
   factory :merchant do
     name "MyString"
   end
