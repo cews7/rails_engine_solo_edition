@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :request do
   it 'returns all items' do
-    items = create_list(:item, 10)
+    create_list(:item, 10)
 
     get '/api/v1/items'
 
