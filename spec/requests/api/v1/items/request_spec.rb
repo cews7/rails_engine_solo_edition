@@ -19,7 +19,7 @@ RSpec.describe Item, type: :request do
     expect(items.first).to have_key(:merchant_id)
   end
 
-  it 'grabs an item' do
+  it 'returns item' do
     db_item = create(:item)
 
     get "/api/v1/items/#{db_item.id}"
