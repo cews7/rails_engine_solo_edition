@@ -15,4 +15,18 @@ RSpec.describe Customer, type: :request do
     expect(customers.first).to have_key(:first_name)
     expect(customers.first).to have_key(:last_name)
   end
+
+  it 'returns customer' do
+    db_customer = create(:customer)
+
+    get "/api/v1/customers/#{db_customer.id}"
+
+    expect(response).to be_success
+
+    customer_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(customer_attrs.count).to eq 5
+    expect(customer_attrs).to have_key(:first_name)
+    expect(customer_attrs).to have_key(:first_name)
+  end
 end
