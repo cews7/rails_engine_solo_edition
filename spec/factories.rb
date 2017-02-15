@@ -5,7 +5,7 @@ FactoryGirl.define do
     result "MyString"
   end
   factory :merchant do
-    name "MyString"
+    name Faker::Name.name 
   end
   factory :item do
     name "Sol Ring"
