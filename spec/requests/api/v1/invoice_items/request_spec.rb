@@ -27,7 +27,7 @@ RSpec.describe InvoiceItem, type: :request do
     invoice_item_attrs = JSON.parse(response.body, symbolize_names: true)
 
     expect(invoice_item_attrs.count).to eq 7
-    
+
     expect(invoice_item_attrs).to have_key(:item_id)
     expect(invoice_item_attrs).to have_key(:invoice_id)
     expect(invoice_item_attrs).to have_key(:quantity)
