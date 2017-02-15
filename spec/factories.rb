@@ -1,15 +1,15 @@
 FactoryGirl.define do
   factory :transaction do
     invoice_id 1
-    credit_card_number 1
-    result "MyString"
+    credit_card_number Faker::Business.credit_card_number
+    result "success"
   end
   factory :merchant do
-    name Faker::Name.name 
+    name Faker::LordOfTheRings.character
   end
   factory :item do
-    name "Sol Ring"
-    description "Add two mana to mana pool"
+    name Faker::Commerce.product_name
+    description Faker::Hipster.sentence
     unit_price 1
     merchant_id 1
   end
@@ -22,7 +22,7 @@ FactoryGirl.define do
     item_id 1
     invoice_id 1
     quantity 1
-    unit_price 1
+    unit_price Faker::Commerce.price
   end
 
   factory :customer do
