@@ -16,7 +16,7 @@ RSpec.describe Transaction, type: :request do
     expect(transactions.first).to have_key(:credit_card_number)
   end
 
-  it 'returns transaction' do
+  it 'returns transaction -- id lookup' do
      db_transaction = create(:transaction)
 
      get "/api/v1/transactions/#{db_transaction.id}"
@@ -28,5 +28,19 @@ RSpec.describe Transaction, type: :request do
      expect(transaction.count).to eq 6
      expect(transaction).to have_key(:invoice_id)
      expect(transaction).to have_key(:credit_card_number)
+  end
+
+  it 'returns transaction -- invoice_id lookup' do
+    db_transaction = create(:transaction)
+
+    get "/api/v1/transactions/find?invoice_id=#{db_transaction.invoice_id}"
+
+    expect(response).to be_success
+
+    transaction = JSON.parse(response.body, symbolize_names: true)
+
+    expect(transaction.count).to eq 6
+    expect(transaction).to have_key(:invoice_id)
+    expect(transaction).to have_key(:credit_card_number)
   end
 end
