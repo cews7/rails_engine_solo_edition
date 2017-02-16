@@ -53,4 +53,17 @@ RSpec.describe 'Merchants API', type: :request do
     expect(merchant_attrs.count).to eq 4
     expect(Merchant.count).to eq 1
   end
+
+  it 'returns merchant -- updated_at lookup' do
+    db_merchant = create(:merchant)
+
+    get "/api/v1/merchants/find?updated_at=#{db_merchant.created_at}"
+
+    expect(response).to be_success
+
+    merchant_attrs = JSON.parse(response.body)
+
+    expect(merchant_attrs.count).to eq 4
+    expect(Merchant.count).to eq 1
+  end
 end
