@@ -15,7 +15,7 @@ RSpec.describe 'Merchants API', type: :request do
     expect(merchant).to have_key(:name)
   end
 
-  it 'returns all merchants' do
+  it 'returns all merchants -- name lookup' do
     db_merchant = create(:merchant)
 
     get "/api/v1/merchants/find_all?name=#{db_merchant.name}"
