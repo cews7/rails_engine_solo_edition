@@ -78,7 +78,23 @@ RSpec.describe Item, type: :request do
 
     expect(response).to be_success
 
-    item = JSON.parse(response.body, symbolize_names:true)
+    item = JSON.parse(response.body, symbolize_names: true)
+
+    expect(item.count).to eq 7
+    expect(item).to have_key(:name)
+    expect(item).to have_key(:description)
+    expect(item).to have_key(:unit_price)
+    expect(item).to have_key(:merchant_id)
+  end
+
+  it 'returns item -- unit_price lookup' do
+    db_item = create(:item)
+
+    get "/api/v1/items/find?unit_price=#{db_item.unit_price}"
+
+    expect(response).to be_success
+
+    item = JSON.parse(response.body, symbolize_names: true)
 
     expect(item.count).to eq 7
     expect(item).to have_key(:name)
