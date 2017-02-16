@@ -15,7 +15,7 @@ RSpec.describe 'Merchants API', type: :request do
     expect(merchant).to have_key(:name)
   end
 
-  it 'returns merchant' do
+  it 'returns merchant -- id lookup' do
     db_merchant = create(:merchant)
 
     get "/api/v1/merchants/#{db_merchant.id}"
