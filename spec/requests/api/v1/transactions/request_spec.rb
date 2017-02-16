@@ -43,4 +43,18 @@ RSpec.describe Transaction, type: :request do
     expect(transaction).to have_key(:invoice_id)
     expect(transaction).to have_key(:credit_card_number)
   end
+
+  it 'returns transaction -- credit_card_number lookup' do
+    db_transaction = create(:transaction)
+
+    get "/api/v1/transactions/find?credit_card_number=#{db_transaction.credit_card_number}"
+
+    expect(response).to be_success
+
+    transaction = JSON.parse(response.body, symbolize_names: true)
+
+    expect(transaction.count).to eq 6
+    expect(transaction).to have_key(:invoice_id)
+    expect(transaction).to have_key(:credit_card_number)
+  end
 end
