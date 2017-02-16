@@ -24,7 +24,7 @@ RSpec.describe Item, type: :request do
     db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
     db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 1, merchant_id: 1)
 
-    get "/api/v1/items/find_all?name=#{db_item_uniq.name}"
+    get "/api/v1/items/find_all?name=macbook"
 
     expect(response).to be_success
 
