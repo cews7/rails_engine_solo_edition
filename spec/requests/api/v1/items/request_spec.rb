@@ -36,6 +36,7 @@ RSpec.describe Item, type: :request do
     expect(item.first).to have_key(:description)
     expect(item.first).to have_key(:unit_price)
     expect(item.first).to have_key(:merchant_id)
+    expect(item.first).to have_value("macbook")
   end
 
   it 'returns item -- id lookup' do

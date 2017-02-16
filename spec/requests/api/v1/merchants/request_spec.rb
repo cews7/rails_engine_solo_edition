@@ -16,9 +16,11 @@ RSpec.describe 'Merchants API', type: :request do
   end
 
   it 'returns all merchants -- name lookup' do
-    db_merchant = create(:merchant)
+    db_merchant_clone1 = Merchant.create(id: 1, name: "John")
+    db_merchant_clone1 = Merchant.create(id: 2, name: "John")
+    db_merchant_uniq   = Merchant.create(id: 3, name: "Tim")
 
-    get "/api/v1/merchants/find_all?name=#{db_merchant.name}"
+    get "/api/v1/merchants/find_all?name=#{db_merchant_uniq.name}"
 
     expect(response).to be_success
 
@@ -26,6 +28,7 @@ RSpec.describe 'Merchants API', type: :request do
 
     expect(merchant.count).to eq 1
     expect(merchant.first).to have_key(:name)
+    expect(merchant.first).to have_value("Tim")
   end
 
   it 'returns merchant -- id lookup' do
