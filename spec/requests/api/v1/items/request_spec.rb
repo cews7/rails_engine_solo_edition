@@ -44,7 +44,27 @@ RSpec.describe Item, type: :request do
     db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
     db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 1, merchant_id: 3)
 
-    get "/api/v1/items/find_all?merchant_id=#{db_item_uniq.merchant_id}"
+    get "/api/v1/items/find_all?merchant_id=3"
+
+    expect(response).to be_success
+
+    item = JSON.parse(response.body, symbolize_names: true)
+
+    expect(item.count).to eq 1
+    expect(item.first.count).to eq 7
+    expect(item.first).to have_key(:name)
+    expect(item.first).to have_key(:description)
+    expect(item.first).to have_key(:unit_price)
+    expect(item.first).to have_key(:merchant_id)
+    expect(item.first).to have_value("macbook")
+  end
+
+  it 'returns all items -- unit_price lookup' do
+    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
+    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
+    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 2, merchant_id: 3)
+
+    get "/api/v1/items/find_all?unit_price=2"
 
     expect(response).to be_success
 
