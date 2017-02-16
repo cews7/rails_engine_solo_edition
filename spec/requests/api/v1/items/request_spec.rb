@@ -19,7 +19,7 @@ RSpec.describe Item, type: :request do
     expect(items.first).to have_key(:merchant_id)
   end
 
-  it 'returns item' do
+  it 'returns item -- id lookup' do
     db_item = create(:item)
 
     get "/api/v1/items/#{db_item.id}"
@@ -33,5 +33,17 @@ RSpec.describe Item, type: :request do
     expect(item).to have_key(:description)
     expect(item).to have_key(:unit_price)
     expect(item).to have_key(:merchant_id)
+  end
+
+  it 'returns item -- name lookup' do
+    db_item = create(:item)
+
+    get "/api/v1/items/find?name=#{db_item.name}"
+
+    expect(response).to be_success
+
+    item = JSON.parse(response.body, symbolize_names: true)
+
+    expect(item.count).to eq 7
   end
 end
