@@ -58,4 +58,32 @@ RSpec.describe Customer, type: :request do
     expect(customer_attrs).to have_key(:last_name)
   end
 
+  it 'returns customer -- created_at lookup' do
+    db_customer = create(:customer)
+
+    get "/api/v1/customers/find?created_at=#{db_customer.created_at}"
+
+    expect(response).to be_success
+
+    customer_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(customer_attrs.count).to eq 5
+    expect(customer_attrs).to have_key(:first_name)
+    expect(customer_attrs).to have_key(:last_name)
+  end
+
+  it 'returns customer -- updated_at lookup' do
+    db_customer = create(:customer)
+
+    get "/api/v1/customers/find?updated_at=#{db_customer.updated_at}"
+
+    expect(response).to be_success
+
+    customer_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(customer_attrs.count).to eq 5
+    expect(customer_attrs).to have_key(:first_name)
+    expect(customer_attrs).to have_key(:last_name)
+  end
+
 end
