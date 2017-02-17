@@ -38,7 +38,23 @@ RSpec.describe Invoice, type: :request do
     invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
     invoice_uniq = Invoice.create(customer_id: 2, merchant_id: 2, status: "success")
 
-    get '/api/v1/invoices/find_all?customer_id=1'
+    get '/api/v1/invoices/find_all?merchant_id=1'
+
+    expect(response).to be_success
+
+    invoices = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invoices.count).to eq 2
+    expect(invoices.first).to have_key(:customer_id)
+    expect(invoices.first).to have_key(:merchant_id)
+  end
+
+  it 'returns all invoices -- status lookup' do
+    invoice_clone1 = Invoice.create(customer_id: 1, merchant_id: 1, status: "failed")
+    invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
+    invoice_uniq = Invoice.create(customer_id: 2, merchant_id: 2, status: "success")
+
+    get '/api/v1/invoices/find_all?status=success'
 
     expect(response).to be_success
 
