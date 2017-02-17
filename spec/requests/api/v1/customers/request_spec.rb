@@ -33,6 +33,24 @@ RSpec.describe Customer, type: :request do
     expect(customers.first).to have_value("John")
   end
 
+  it 'returns all customers -- last_name lookup' do
+    customer_clone1 = Customer.create(first_name: "John", last_name: "Doe")
+    customer_clone2 = Customer.create(first_name: "John", last_name: "Doe")
+    customer_uniq   = Customer.create(first_name: "Sam",  last_name: "Smith")
+
+    get '/api/v1/customers/find_all?last_name=Doe'
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body, symbolize_names: true)
+
+    expect(customers.count).to eq 2
+    expect(customers.first).to have_key(:first_name)
+    expect(customers.first).to have_key(:last_name)
+    expect(customers.first).to have_value("Doe")
+  end
+
+
   it 'returns customer -- id lookup' do
     db_customer = create(:customer)
 
