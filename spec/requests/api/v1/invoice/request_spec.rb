@@ -27,6 +27,20 @@ RSpec.describe Invoice, type: :request do
 
     expect(invoice_attrs.count).to eq 6
     expect(invoice_attrs).to have_key(:customer_id)
-    expect(invoice_attrs).to have_key(:merchant_id) 
+    expect(invoice_attrs).to have_key(:merchant_id)
+  end
+
+  it 'returns invoice -- customer_id lookup' do
+    db_invoice = create(:invoice)
+
+    get "/api/v1/invoices/find?customer_id=#{db_invoice.customer_id}"
+
+    expect(response).to be_success
+
+    invoice = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invoice.count).to eq 6
+    expect(invoice).to have_key(:customer_id)
+    expect(invoice).to have_key(:merchant_id)
   end
 end
