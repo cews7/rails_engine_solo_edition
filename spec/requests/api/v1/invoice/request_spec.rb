@@ -76,4 +76,34 @@ RSpec.describe Invoice, type: :request do
     expect(invoice_attrs).to have_key(:merchant_id)
     expect(invoice_attrs).to have_key(:status)
   end
+
+  it 'returns invoice -- created_at lookup' do
+    db_invoice = create(:invoice)
+
+    get "/api/v1/invoices/find?created_at=#{db_invoice.created_at}"
+
+    expect(response).to be_success
+
+    invoice_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invoice_attrs.count).to eq 6
+    expect(invoice_attrs).to have_key(:customer_id)
+    expect(invoice_attrs).to have_key(:merchant_id)
+    expect(invoice_attrs).to have_key(:status)
+  end
+
+  it 'returns invoice -- updated_at lookup' do
+    db_invoice = create(:invoice)
+
+    get "/api/v1/invoices/find?updated_at=#{db_invoice.updated_at}"
+
+    expect(response).to be_success
+
+    invoice_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invoice_attrs.count).to eq 6
+    expect(invoice_attrs).to have_key(:customer_id)
+    expect(invoice_attrs).to have_key(:merchant_id)
+    expect(invoice_attrs).to have_key(:status)
+  end
 end
