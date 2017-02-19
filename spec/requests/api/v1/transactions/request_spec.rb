@@ -100,4 +100,18 @@ RSpec.describe Transaction, type: :request do
     expect(transaction).to have_key(:credit_card_number)
   end
 
+  it 'returns random transaction' do
+    create_list(:transaction, 10)
+
+    get '/api/v1/transactions/random.json'
+
+    expect(response).to be_success
+
+    transaction_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(transaction_attrs.count).to eq 6
+    expect(transaction_attrs).to have_key(:invoice_id)
+    expect(transaction_attrs).to have_key(:credit_card_number)
+  end
+
 end
