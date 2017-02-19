@@ -82,4 +82,17 @@ RSpec.describe 'Merchants API', type: :request do
     expect(merchant_attrs.count).to eq 4
     expect(Merchant.count).to eq 1
   end
+
+  it 'returns random merchant' do
+    create_list(:merchant, 10)
+
+    get '/api/v1/merchants/random.json'
+
+    merchant_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(merchant_attrs.count).to eq 4
+    expect(merchant_attrs).to have_key(:name)
+    expect(merchant_attrs).to have_key(:created_at)
+    expect(merchant_attrs).to have_key(:updated_at)
+  end
 end
