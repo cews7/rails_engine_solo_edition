@@ -174,4 +174,18 @@ RSpec.describe Item, type: :request do
     expect(item).to have_key(:unit_price)
     expect(item).to have_key(:merchant_id)
   end
+
+  it 'returns random item' do
+    create_list(:item, 10)
+
+    get '/api/v1/items/random.json'
+
+    item_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(item_attrs.count).to eq 7
+    expect(item_attrs).to have_key(:name)
+    expect(item_attrs).to have_key(:description)
+    expect(item_attrs).to have_key(:unit_price)
+    expect(item_attrs).to have_key(:merchant_id)
+  end
 end
