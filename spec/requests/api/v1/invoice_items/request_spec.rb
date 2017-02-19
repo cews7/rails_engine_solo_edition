@@ -97,4 +97,20 @@ RSpec.describe InvoiceItem, type: :request do
     expect(invoice_item).to have_key(:quantity)
     expect(invoice_item).to have_key(:unit_price)
   end
+
+  it 'returns random invoice_item' do
+    create_list(:invoice_item, 10)
+
+    get '/api/v1/invoice_items/random.json'
+
+    expect(response).to be_success
+
+    invoice_item_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invoice_item_attrs.count).to eq 7
+    expect(invoice_item_attrs).to have_key(:item_id)
+    expect(invoice_item_attrs).to have_key(:invoice_id)
+    expect(invoice_item_attrs).to have_key(:quantity)
+    expect(invoice_item_attrs).to have_key(:unit_price)
+  end
 end
