@@ -18,9 +18,10 @@ RSpec.describe Invoice, type: :request do
   end
 
   it 'returns all invoices -- customer_id lookup' do
-    invoice_clone1 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
-    invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
-    invoice_uniq = Invoice.create(customer_id: 2, merchant_id: 1, status: "success")
+    merchant       = create(:merchant)
+    invoice_clone1 = Invoice.create(id: 1, customer_id: 1, merchant_id: merchant.id, status: "success")
+    invoice_clone2 = Invoice.create(id: 2, customer_id: 1, merchant_id: merchant.id, status: "success")
+    invoice_uniq   = Invoice.create(id: 3, customer_id: 2, merchant_id: merchant.id, status: "success")
 
     get '/api/v1/invoices/find_all?customer_id=1'
 
@@ -34,9 +35,11 @@ RSpec.describe Invoice, type: :request do
   end
 
   it 'returns all invoices -- merchant_id lookup' do
-    invoice_clone1 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
-    invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
-    invoice_uniq = Invoice.create(customer_id: 2, merchant_id: 2, status: "success")
+    merchant       = create(:merchant, id: 1)
+    merchant2      = create(:merchant)
+    invoice_clone1 = Invoice.create(customer_id: 1, merchant_id: merchant.id, status: "success")
+    invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: merchant.id, status: "success")
+    invoice_uniq   = Invoice.create(customer_id: 2, merchant_id: merchant2.id, status: "success")
 
     get '/api/v1/invoices/find_all?merchant_id=1'
 
@@ -50,9 +53,10 @@ RSpec.describe Invoice, type: :request do
   end
 
   it 'returns all invoices -- status lookup' do
-    invoice_clone1 = Invoice.create(customer_id: 1, merchant_id: 1, status: "failed")
-    invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: 1, status: "success")
-    invoice_uniq = Invoice.create(customer_id: 2, merchant_id: 2, status: "success")
+    merchant       = create(:merchant)
+    invoice_clone1 = Invoice.create(customer_id: 1, merchant_id: merchant.id, status: "failed")
+    invoice_clone2 = Invoice.create(customer_id: 1, merchant_id: merchant.id, status: "success")
+    invoice_uniq   = Invoice.create(customer_id: 2, merchant_id: merchant.id, status: "success")
 
     get '/api/v1/invoices/find_all?status=success'
 

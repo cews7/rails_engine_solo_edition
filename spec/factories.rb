@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :transaction do
-    invoice_id 1
+    invoice
     credit_card_number Faker::Business.credit_card_number
     result "success"
   end
@@ -15,7 +15,7 @@ FactoryGirl.define do
   end
   factory :invoice do
     customer_id 1
-    merchant 
+    merchant
     status "shipped"
   end
   factory :invoice_item do

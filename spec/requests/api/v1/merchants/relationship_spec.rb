@@ -1,29 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Relationships', type: :request do
-  describe '/api/v1/merchant/:id/items' do
-    it 'returns items associated with merchant' do
-      merchant = create(:merchant)
+  it 'returns items associated with merchant' do
+    merchant = create(:merchant)
 
-      create_list(:item, 10, merchant_id: merchant.id)
+    create_list(:item, 10, merchant_id: merchant.id)
 
-      get "/api/v1/merchants/#{merchant.id}/items"
+    get "/api/v1/merchants/#{merchant.id}/items"
+    expect(response).to be_success
 
-      merchant_items = JSON.parse(response.body, symbolize_names: true)
+    merchant_items = JSON.parse(response.body, symbolize_names: true)
 
-      expect(response).to be_success
-      expect(merchant_items.count).to eq 10
-    end
+    expect(merchant_items.count).to eq 10
+  end
 
-    it 'returns invoices associated with merchant' do
-      merchant = create(:merchant)
+  it 'returns invoices associated with merchant' do
+    merchant = create(:merchant)
 
-      create_list(:invoice, 10, merchant_id: merchant.id)
+    create_list(:invoice, 10, merchant_id: merchant.id)
 
-      merchant_invoices = JSON.parse(response.body, symbolize_names: true)
+    get "/api/v1/merchants/#{merchant.id}/invoices"
+    
+    expect(response).to be_success
 
-      expect(response).to be_success
-      expect(merchant_invoices.count).to eq 10
-    end
+    merchant_invoices = JSON.parse(response.body, symbolize_names: true)
+
+    expect(merchant_invoices.count).to eq 10
   end
 end
