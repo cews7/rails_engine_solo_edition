@@ -13,16 +13,16 @@ FactoryGirl.define do
     unit_price 1
     merchant
   end
+  factory :invoice_item do
+    item
+    invoice
+    quantity 1
+    unit_price Faker::Commerce.price
+  end
   factory :invoice do
     customer_id 1
     merchant
     status "shipped"
-  end
-  factory :invoice_item do
-    item_id 1
-    invoice
-    quantity 1
-    unit_price Faker::Commerce.price
   end
 
   factory :customer do
