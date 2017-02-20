@@ -20,9 +20,10 @@ RSpec.describe Item, type: :request do
   end
 
   it 'returns all items -- name lookup' do
-    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
-    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
-    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 1, merchant_id: 1)
+    merchant       = create(:merchant)
+    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: merchant.id)
+    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: merchant.id)
+    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 1, merchant_id: merchant.id)
 
     get "/api/v1/items/find_all?name=macbook"
 
@@ -40,9 +41,11 @@ RSpec.describe Item, type: :request do
   end
 
   it 'returns all items -- merchant_id lookup' do
-    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
-    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
-    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 1, merchant_id: 3)
+    merchant       = create(:merchant)
+    merchant2       = create(:merchant, id: 3)
+    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: merchant.id)
+    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: merchant.id)
+    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 1, merchant_id: merchant2.id)
 
     get "/api/v1/items/find_all?merchant_id=3"
 
@@ -60,9 +63,10 @@ RSpec.describe Item, type: :request do
   end
 
   it 'returns all items -- unit_price lookup' do
-    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
-    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: 1)
-    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 2, merchant_id: 3)
+    merchant       = create(:merchant)
+    db_item_clone1 = Item.create(id: 1, name: "hammer", description: "example", unit_price: 1, merchant_id: merchant.id)
+    db_item_clone2 = Item.create(id: 2, name: "hammer", description: "example", unit_price: 1, merchant_id: merchant.id)
+    db_item_uniq   = Item.create(id: 3, name: "macbook", description: "example", unit_price: 2, merchant_id: merchant.id)
 
     get "/api/v1/items/find_all?unit_price=2"
 
