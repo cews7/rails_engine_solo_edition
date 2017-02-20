@@ -20,7 +20,7 @@ FactoryGirl.define do
   end
   factory :invoice_item do
     item_id 1
-    invoice_id 1
+    invoice
     quantity 1
     unit_price Faker::Commerce.price
   end
