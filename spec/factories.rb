@@ -11,7 +11,7 @@ FactoryGirl.define do
     name Faker::Commerce.product_name
     description Faker::Hipster.sentence
     unit_price 1
-    merchant_id 1
+    merchant 
   end
   factory :invoice do
     customer_id 1
