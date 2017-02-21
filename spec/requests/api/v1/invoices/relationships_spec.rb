@@ -36,7 +36,7 @@ RSpec.describe 'Invoice Relationships', type: :request do
     expect(response).to be_success
 
     items = JSON.parse(response.body, symbolize_names: true)
-    
+
     expect(items.count).to eq 1
   end
 
@@ -51,5 +51,21 @@ RSpec.describe 'Invoice Relationships', type: :request do
     customer_attrs = JSON.parse(response.body, symbolize_names: true)
 
     expect(customer_attrs.count).to eq 5
+    expect(customer_attrs).to have_key(:first_name)
+    expect(customer_attrs).to have_key(:last_name)
+  end
+
+  it 'returns the associated merchant' do
+    customer = create(:customer)
+    invoice  = create(:invoice, customer_id: customer.id)
+
+    get "/api/v1/invoices/#{invoice.id}/merchant"
+
+    expect(response).to be_success
+
+    merchant_attrs = JSON.parse(response.body, symbolize_names: true)
+
+    expect(merchant_attrs.count).to eq 4
+    expect(merchant_attrs).to have_key(:name)
   end
 end
