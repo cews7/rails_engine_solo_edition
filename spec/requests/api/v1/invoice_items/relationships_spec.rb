@@ -25,13 +25,13 @@ RSpec.describe 'Invoice_items Relationships' do
     invoice      = create(:invoice)
     item         = create(:item, merchant_id: merchant.id)
     invoice_item = create(:invoice_item, invoice_id: invoice.id, item_id: item.id)
-    binding.pry
+
     get "/api/v1/invoice_items/#{invoice_item.id}/item"
 
     expect(response).to be_success
 
     item_attrs = JSON.parse(response.body, symbolize_names: true)
-    binding.pry
+
     expect(item_attrs.count).to eq 7
     expect(item_attrs).to have_key(:name)
     expect(item_attrs).to have_key(:description)
