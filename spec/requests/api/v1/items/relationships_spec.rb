@@ -4,6 +4,7 @@ RSpec.describe 'Item Relationships' do
   it 'returns a collection of associated invoice_items' do
     item = create(:item)
     create_list(:invoice_item, 4, item_id: item.id)
+    create(:invoice_item)
 
     get "/api/v1/items/#{item.id}/invoice_items"
 
@@ -20,7 +21,8 @@ RSpec.describe 'Item Relationships' do
   it 'returns associated merchant' do
     merchant = create(:merchant)
     item     = create(:item, merchant_id: merchant.id)
-
+    create(:merchant)
+    
     get "/api/v1/items/#{item.id}/merchant"
 
     expect(response).to be_success
