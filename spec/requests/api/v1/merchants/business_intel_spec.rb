@@ -110,4 +110,23 @@ RSpec.describe 'Merchant Business Intelligence' do
     expect(response).to be_success
     expect(response.body).to eq '{"revenue":"0.4"}'
   end
+
+  it 'returns customer who has conducted most total number of successful transactions' do
+    merchant     = create(:merchant)
+    fav_customer = create(:customer)
+    customer     = create(:customer)
+    invoices     = create_list(:invoice, 2, merchant: merchant, customer: fav_customer)
+    invoice      = create(:invoice, merchant: merchant, customer: customer)
+    create(:transaction, result: 'success', invoice: invoices.first)
+    create(:transaction, result: 'success', invoice: invoices.last)
+    create(:transaction, result: 'success', invoice: invoice)
+
+    get "/api/v1/merchants/#{merchant.id}/favorite_customer"
+
+    expect(response).to be_success
+
+    customer = JSON.parse(response.body)
+
+    expect(customer['id']).to eq(fav_customer.id)
+  end
 end
