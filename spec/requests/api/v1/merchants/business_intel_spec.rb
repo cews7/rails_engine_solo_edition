@@ -76,4 +76,21 @@ RSpec.describe 'Merchant Business Intelligence' do
     expect(top_merchants.first).to have_value('John')
     expect(top_merchants.last).to have_value('Tim')
   end
+
+  it 'returns total revenue for merchant across all transactions' do
+    merchant_1 = create(:merchant, name: 'John')
+
+    merchant_1.invoices << create_list(:invoice, 2)
+
+    merchant_1.invoices.each do |invoice|
+      invoice.transactions  << create(:transaction)
+      invoice.invoice_items << create(:invoice_item, quantity: 1, unit_price: 5)
+      invoice.invoice_items << create(:invoice_item, quantity: 1, unit_price: 5)
+    end
+
+    get "/api/v1/merchants/#{merchant_1.id}/revenue"
+
+    expect(response).to be_success
+    expect(response.body).to eq '20'
+  end
 end
