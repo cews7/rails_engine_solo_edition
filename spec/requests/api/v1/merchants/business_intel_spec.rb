@@ -108,6 +108,6 @@ RSpec.describe 'Merchant Business Intelligence' do
     get "/api/v1/merchants/#{merchant_1.id}/revenue?date=#{merchant_1.invoices.first.created_at}"
 
     expect(response).to be_success
-    expect(response.body).to eq '{"revenue":"0.2"}'
+    expect(response.body).to eq '{"revenue":"0.4"}'
   end
 end
