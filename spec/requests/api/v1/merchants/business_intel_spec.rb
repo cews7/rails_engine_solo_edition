@@ -78,7 +78,7 @@ RSpec.describe 'Merchant Business Intelligence' do
   end
 
   it 'returns total revenue for merchant across all transactions' do
-    merchant_1 = create(:merchant, name: 'John')
+    merchant_1 = create(:merchant)
 
     merchant_1.invoices << create_list(:invoice, 2)
 
@@ -91,6 +91,23 @@ RSpec.describe 'Merchant Business Intelligence' do
     get "/api/v1/merchants/#{merchant_1.id}/revenue"
 
     expect(response).to be_success
-    expect(response.body).to eq '20'
+    expect(response.body).to eq '{"revenue":"0.2"}'
+  end
+
+  it 'returns total revenue for merchant for specific invoice date' do
+    merchant_1 = create(:merchant)
+
+    merchant_1.invoices << create_list(:invoice, 2)
+
+    merchant_1.invoices.each do |invoice|
+      invoice.transactions  << create(:transaction)
+      invoice.invoice_items << create(:invoice_item, quantity: 1, unit_price: 5)
+      invoice.invoice_items << create(:invoice_item, quantity: 1, unit_price: 5)
+    end
+
+    get "/api/v1/merchants/#{merchant_1.id}/revenue?date=#{merchant_1.invoices.first.created_at}"
+
+    expect(response).to be_success
+    expect(response.body).to eq '{"revenue":"0.4"}'
   end
 end
