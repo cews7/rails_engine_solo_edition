@@ -20,8 +20,6 @@ RSpec.describe 'Items Business Intelligence' do
     expect(most_rev_item.first).to have_value('Pencil')
   end
 
-  # /api/v1/items/most_items?quantity=x
-
   it 'returns top x (1 for this test) items ranked by sold count' do
     item_least_sold = create(:item)
     item_most_sold  = create(:item, name: 'Pink Hat')
