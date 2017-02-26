@@ -1,4 +1,5 @@
-# Setup
+# Rails Engine
+## Setup
 
 1. `git clone` this repo:
 `git@github.com:cews7/rails_engine_solo_edition.git`
@@ -9,4 +10,4 @@
 
 4. Run `rspec` to see 92/92 tests passing
 
-5. Start up a `rails server` and use localhost to navigate to various endpoints from the browser 
+5. Start up a `rails server` and use localhost to navigate to various endpoints from the browser
